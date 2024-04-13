@@ -1,0 +1,90 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "windows": {
+    "options": {
+      "env": {
+        "CXXFLAGS": "-m64 -fdiagnostics-absolute-paths",
+        "CFLAGS": "-m64 -fdiagnostics-absolute-paths"
+      },
+      "shell": {
+        "executable": "cmd.exe",
+        "args": [
+          "/C",
+          // The path to VsDevCmd.bat depends on the version of Visual Studio you have installed.
+          "\"C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/Build/vcvars64.bat\"",
+          "&&"
+        ]
+      }
+    }
+  },
+  "tasks": [
+    {
+      "label": "Config",
+      "type": "shell",
+      "command": "cmake.exe",
+      "args": [
+        "-S${workspaceFolder}",
+        "-B_build/_Release",
+        "-GNinja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_INSTALL_PREFIX=public_repo/_build/_Install",
+        "-DCMAKE_C_COMPILER=clang-cl.exe",
+        "-DCMAKE_CXX_COMPILER=clang-cl.exe",
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {},
+    },
+    {
+      "label": "Build",
+      "type": "shell",
+      "command": "cmake.exe",
+      "args": [
+        "--build",
+        "_build/_Release",
+        "-j16"
+      ],
+      "group": {
+        "kind": "build",
+      },
+      "presentation": {},
+    },
+    {
+      "label": "install",
+      "type": "shell",
+      "command": "cmake.exe",
+      "args": [
+        "--install",
+        "_build/_Release"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "dependsOn": [
+        "Build"
+      ],
+      "presentation": {},
+    },
+    {
+      "label": "clean",
+      "type": "shell",
+      "command": "cmake.exe",
+      "args": [
+        "--build",
+        "_build/_Release",
+        "--target",
+        "clean"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {},
+    }
+  ]
+}

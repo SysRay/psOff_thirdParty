@@ -1,0 +1,9 @@
+[submodule "projects/zlib"]
+	path = projects/zlib
+	url = https://github.com/madler/zlib.git
+[submodule "projects/fff"]
+	path = projects/fff
+	url = https://github.com/meekrosoft/fff.git
+[submodule "projects/SDL"]
+	path = projects/SDL
+	url = https://github.com/libsdl-org/SDL.git
