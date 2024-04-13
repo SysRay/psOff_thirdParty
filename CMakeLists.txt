@@ -123,7 +123,7 @@ ExternalProject_Add(magic_enum_project
   -DMAGIC_ENUM_OPT_INSTALL:BOOL=ON
 )
 
-install(DIRECTORY "projects/alpaca/" DESTINATION ${INSTALL_DIR})
+install(DIRECTORY "projects/alpaca/include" DESTINATION ${INSTALL_DIR}/include)
 
 ExternalProject_Add(vma_project
   SOURCE_DIR ${CMAKE_SOURCE_DIR}/projects/VulkanMemoryAllocator
