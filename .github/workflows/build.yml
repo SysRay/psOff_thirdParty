@@ -33,6 +33,10 @@ jobs:
         - name: Install
           run: cmake --install _build/_Release
 
-        - uses: ncipollo/release-action@v1.14.0
+        - name: Create release
+          uses: softprops/action-gh-release@v2
           with:
-            artifacts: _build/_Release/install/
+            prerelease: false
+            name: thirdparty_${{ github.ref_name }}
+            files: |
+              _build/_Release/install/
