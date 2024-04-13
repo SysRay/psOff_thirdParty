@@ -16,13 +16,17 @@ jobs:
             submodules: recursive
 
         - name: Configure
-          run: cmake.exe -S. -B_build/_Release -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=_build/_Install -DCMAKE_C_COMPILER=clang-cl.exe -DCMAKE_CXX_COMPILER=clang-cl.exe
-    
+          run: cmake -S. -B_build/_Release -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=_build/_Install -DCMAKE_C_COMPILER=clang-cl.exe -DCMAKE_CXX_COMPILER=clang-cl.exe
+
+        - name: Detect MSVC
+          uses: ilammy/msvc-dev-cmd@v1
+          with:
+            arch: x86_64
         - name: Build
           run: cmake --build _build/_Release -j4
   
         - name: Install
-          run: cmake.exe --install _build/_Release
+          run: cmake --install _build/_Release
 
 
         - name: Upload artifacts
