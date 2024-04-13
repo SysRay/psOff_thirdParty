@@ -16,15 +16,23 @@
 [submodule "projects/libpng"]
 	path = projects/libpng
 	url = https://github.com/pnggroup/libpng
+  ignore = dirty
 [submodule "projects/magic_enum"]
 	path = projects/magic_enum
 	url = https://github.com/Neargye/magic_enum.git
+  ignore = dirty
 [submodule "projects/optick"]
 	path = projects/optick
 	url = https://github.com/bombomby/optick.git
+  ignore = dirty
 [submodule "projects/VulkanMemoryAllocator"]
 	path = projects/VulkanMemoryAllocator
 	url = https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator.git
+  ignore = dirty
 [submodule "projects/libzip"]
 	path = projects/libzip
 	url = https://github.com/nih-at/libzip
+  ignore = dirty
+[submodule "projects/boost"]
+	path = projects/boost
+	url = https://github.com/boostorg/boost.git

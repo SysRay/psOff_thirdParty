@@ -29,7 +29,7 @@
         "-B_build/_Release",
         "-GNinja",
         "-DCMAKE_BUILD_TYPE=Release",
-        "-DCMAKE_INSTALL_PREFIX=public_repo/_build/_Install",
+        "-DCMAKE_INSTALL_PREFIX=_build/_Release/install",
         "-DCMAKE_C_COMPILER=clang-cl.exe",
         "-DCMAKE_CXX_COMPILER=clang-cl.exe",
       ],

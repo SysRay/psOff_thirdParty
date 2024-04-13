@@ -106,7 +106,6 @@ install(DIRECTORY "projects/nlohmann/" DESTINATION ${INSTALL_DIR}/include
   FILES_MATCHING PATTERN "*.h"
 )
 
-
 ExternalProject_Add(magic_enum_project
   SOURCE_DIR ${CMAKE_SOURCE_DIR}/projects/magic_enum
   BINARY_DIR ${BUILDS_DIR}/magic_enum
@@ -165,3 +164,22 @@ ExternalProject_Add(libzip_project
   -DLIBZIP_DO_INSTALL:BOOL=ON
 )
 ExternalProject_Add_StepDependencies(libzip_project install zlib_project)
+
+set(BOOST_INCLUDE_LIBRARIES "program_options;date_time;interprocess;stacktrace;uuid;beast;signals2;thread;url;asio")
+ExternalProject_Add(boost_project
+  SOURCE_DIR ${CMAKE_SOURCE_DIR}/projects/boost
+  BINARY_DIR ${BUILDS_DIR}/boost
+  CMAKE_ARGS
+  -DCMAKE_BUILD_TYPE:STRING=Release
+  -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}
+  -DCMAKE_CXX_FLAGS_RELEASE=${CMAKE_CXX_FLAGS_RELEASE}
+  -DCMAKE_C_FLAGS_RELEASE=${CMAKE_C_FLAGS_RELEASE}
+  -DCMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}
+  -DCMAKE_INSTALL_MESSAGE=NEVER
+
+  -DBoost_USE_STATIC_LIBS=ON
+  -DBoost_USE_MULTITHREADED=ON
+  -DBUILD_TESTING=OFF
+  -DBOOST_INSTALL_LAYOUT=system
+  CMAKE_CACHE_ARGS -DBOOST_INCLUDE_LIBRARIES:STRING=${BOOST_INCLUDE_LIBRARIES}
+)
