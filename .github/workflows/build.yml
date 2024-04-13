@@ -33,10 +33,13 @@ jobs:
         - name: Install
           run: cmake --install _build/_Release
 
+        - name: Zip it up
+          working-directory: _build/_Release
+          run: |
+            7z a psOff-3rd.zip .\install\*
         - name: Create release
           uses: softprops/action-gh-release@v2
           with:
             prerelease: false
-            name: thirdparty_${{ github.ref_name }}
-            files: |
-              _build/_Release/install/
+            name: psOff thirdparty ${{ github.ref_name }}
+            files: _build/_Release/psOff-3rd.zip
