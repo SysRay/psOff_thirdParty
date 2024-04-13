@@ -1,9 +1,24 @@
 [submodule "projects/zlib"]
 	path = projects/zlib
 	url = https://github.com/madler/zlib.git
+  ignore = dirty
 [submodule "projects/fff"]
 	path = projects/fff
 	url = https://github.com/meekrosoft/fff.git
+  ignore = dirty
 [submodule "projects/SDL"]
 	path = projects/SDL
 	url = https://github.com/libsdl-org/SDL.git
+  ignore = dirty
+[submodule "projects/googletest"]
+	path = projects/googletest
+	url = https://github.com/google/googletest.git
+[submodule "projects/libpng"]
+	path = projects/libpng
+	url = https://github.com/pnggroup/libpng
+[submodule "projects/magic_enum"]
+	path = projects/magic_enum
+	url = https://github.com/Neargye/magic_enum.git
+[submodule "projects/optick"]
+	path = projects/optick
+	url = https://github.com/bombomby/optick.git
