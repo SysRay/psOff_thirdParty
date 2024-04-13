@@ -1,0 +1,33 @@
+name: build
+
+on:
+  push:
+    tags: v.*.*
+
+jobs:
+  build:
+      name: third_party
+      runs-on: windows-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+          with:
+            path: projects
+            submodules: recursive
+
+        - name: Configure
+          run: cmake.exe -S. -B_build/_Release -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=_build/_Install -DCMAKE_C_COMPILER=clang-cl.exe -DCMAKE_CXX_COMPILER=clang-cl.exe
+    
+        - name: Build
+          run: cmake --build _build/_Release -j4
+  
+        - name: Install
+          run: cmake.exe --install _build/_Release
+
+
+        - name: Upload artifacts
+          uses: actions/upload-artifact@v4
+          with:
+            name: third_party
+            path: |
+               _build/_Release/install/
