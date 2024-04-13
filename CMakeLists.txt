@@ -107,7 +107,7 @@ install(DIRECTORY "projects/nlohmann/" DESTINATION ${INSTALL_DIR}/include
 )
 
 
-ExternalProject_Add(magienum_project
+ExternalProject_Add(magicenum_project
   SOURCE_DIR ${CMAKE_SOURCE_DIR}/projects/magic_enum
   BINARY_DIR ${BUILDS_DIR}/magic_enum
   CMAKE_ARGS
@@ -124,3 +124,17 @@ ExternalProject_Add(magienum_project
 )
 
 install(DIRECTORY "projects/alpaca/" DESTINATION ${INSTALL_DIR})
+
+ExternalProject_Add(vma_project
+  SOURCE_DIR ${CMAKE_SOURCE_DIR}/projects/VulkanMemoryAllocator
+  BINARY_DIR ${BUILDS_DIR}/vma
+  CMAKE_ARGS
+  -DCMAKE_BUILD_TYPE:STRING=Release
+  -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}
+  -DCMAKE_INSTALL_MESSAGE=${CMAKE_INSTALL_MESSAGE}
+  -DCMAKE_C_FLAGS_RELEASE=${CMAKE_C_FLAGS_RELEASE}
+  -DCMAKE_CXX_FLAGS_RELEASE=${CMAKE_CXX_FLAGS_RELEASE}
+  -DCMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}
+)
+
+install(DIRECTORY "projects/xxhash/include/" DESTINATION ${INSTALL_DIR}/include)

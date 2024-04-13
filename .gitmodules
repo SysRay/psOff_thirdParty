@@ -22,3 +22,6 @@
 [submodule "projects/optick"]
 	path = projects/optick
 	url = https://github.com/bombomby/optick.git
+[submodule "projects/VulkanMemoryAllocator"]
+	path = projects/VulkanMemoryAllocator
+	url = https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator.git
