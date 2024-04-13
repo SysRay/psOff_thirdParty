@@ -33,9 +33,13 @@ jobs:
         - name: Install
           run: cmake --install _build/_Release
 
-        - name: Upload artifacts
-          uses: actions/upload-artifact@v4
+        - name: Releasing
+          id: create_release
+          uses: actions/create-release@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
           with:
-            name: third_party
-            path: |
-               _build/_Release/install/
+            tag_name: ${{ github.ref }}
+            release_name: Release ${{ github.ref }}
+            draft: false
+            prerelease: false
