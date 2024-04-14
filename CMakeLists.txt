@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+set(CMAKE_CXX_FLAGS_RELEASE "/MD /Zi /GS- /GF /Gy /GR /Oi -Os")
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /OPT:REF,ICF")
 set(CMAKE_INSTALL_MESSAGE LAZY)
 
@@ -30,7 +31,7 @@ ExternalProject_Add(zlib_project
   -DCMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}
 )
 
-install(FILES "projects/fff/fff.h" DESTINATION ${INSTALL_DIR}/include/fff)
+install(FILES "projects/fff/fff.h" DESTINATION ${INSTALL_DIR}/include/fff/)
 
 # P7
 add_subdirectory(projects/p7)
@@ -41,20 +42,21 @@ set_target_properties(p7
   RUNTIME_OUTPUT_DIRECTORY "${INSTALL_DIR}/bin"
 )
 
-install(DIRECTORY "projects/p7/Headers" DESTINATION ${INSTALL_DIR}/include/p7
+install(DIRECTORY "projects/p7/Headers/" DESTINATION ${INSTALL_DIR}/include/p7
   FILES_MATCHING PATTERN "*.h"
 )
 
 # SDL2
-add_subdirectory(projects/SDL)
-set_target_properties(SDL2
-  PROPERTIES
-  ARCHIVE_OUTPUT_DIRECTORY "${INSTALL_DIR}/bin"
-  LIBRARY_OUTPUT_DIRECTORY "${INSTALL_DIR}/lib"
-  RUNTIME_OUTPUT_DIRECTORY "${INSTALL_DIR}/bin"
-)
-install(DIRECTORY "${CMAKE_BINARY_DIR}/projects/SDL/include" DESTINATION ${INSTALL_DIR}
-  FILES_MATCHING PATTERN "*.h"
+ExternalProject_Add(sdl_project
+  SOURCE_DIR ${CMAKE_SOURCE_DIR}/projects/SDL
+  BINARY_DIR ${BUILDS_DIR}/sdl
+  CMAKE_ARGS
+  -DCMAKE_BUILD_TYPE:STRING=Release
+  -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}
+  -DCMAKE_INSTALL_MESSAGE=${CMAKE_INSTALL_MESSAGE}
+  -DCMAKE_C_FLAGS_RELEASE=${CMAKE_C_FLAGS_RELEASE}
+  -DCMAKE_CXX_FLAGS_RELEASE=${CMAKE_CXX_FLAGS_RELEASE}
+  -DCMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}
 )
 
 ExternalProject_Add(libpng_project
@@ -91,24 +93,9 @@ ExternalProject_Add(optick_project
   -DCMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}
 )
 
-set(gtest_force_shared_crt on)
-add_subdirectory(projects/googletest)
-
-install(DIRECTORY "projects/ffmpeg/" DESTINATION "${INSTALL_DIR}"
-  FILES_MATCHING PATTERN "*.dll"
-)
-
-install(DIRECTORY "projects/openssl/" DESTINATION "${INSTALL_DIR}"
-  FILES_MATCHING PATTERN "*.dll"
-)
-
-install(DIRECTORY "projects/nlohmann/" DESTINATION ${INSTALL_DIR}/include
-  FILES_MATCHING PATTERN "*.h"
-)
-
-ExternalProject_Add(magic_enum_project
-  SOURCE_DIR ${CMAKE_SOURCE_DIR}/projects/magic_enum
-  BINARY_DIR ${BUILDS_DIR}/magic_enum
+ExternalProject_Add(gtest_project
+  SOURCE_DIR ${CMAKE_SOURCE_DIR}/projects/googletest
+  BINARY_DIR ${BUILDS_DIR}/gtest
   CMAKE_ARGS
   -DCMAKE_BUILD_TYPE:STRING=Release
   -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}
@@ -117,12 +104,23 @@ ExternalProject_Add(magic_enum_project
   -DCMAKE_CXX_FLAGS_RELEASE=${CMAKE_CXX_FLAGS_RELEASE}
   -DCMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}
 
-  -DMAGIC_ENUM_OPT_BUILD_EXAMPLES:BOOL=OFF
-  -DMAGIC_ENUM_OPT_BUILD_TESTS:BOOL=OFF
-  -DMAGIC_ENUM_OPT_INSTALL:BOOL=ON
+  -Dgtest_force_shared_crt:BOOL=ON
 )
 
-install(DIRECTORY "projects/alpaca/include" DESTINATION ${INSTALL_DIR}/include)
+install(DIRECTORY "projects/ffmpeg/bin/" DESTINATION "${INSTALL_DIR}/bin")
+install(DIRECTORY "projects/ffmpeg/include/" DESTINATION "${INSTALL_DIR}/include")
+install(DIRECTORY "projects/ffmpeg/lib/" DESTINATION "${INSTALL_DIR}/lib")
+
+install(DIRECTORY "projects/openssl/bin/" DESTINATION "${INSTALL_DIR}/bin")
+install(DIRECTORY "projects/openssl/include/" DESTINATION "${INSTALL_DIR}/include")
+install(DIRECTORY "projects/openssl/lib/" DESTINATION "${INSTALL_DIR}/lib")
+
+install(DIRECTORY "projects/nlohmann/" DESTINATION ${INSTALL_DIR}/include/nlohmann
+  FILES_MATCHING PATTERN "*.hpp"
+)
+
+install(DIRECTORY "projects/magic_enum/include/" DESTINATION ${INSTALL_DIR}/include)
+install(DIRECTORY "projects/alpaca/include/" DESTINATION ${INSTALL_DIR}/include)
 
 ExternalProject_Add(vma_project
   SOURCE_DIR ${CMAKE_SOURCE_DIR}/projects/VulkanMemoryAllocator
