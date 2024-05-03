@@ -53,6 +53,13 @@ install(DIRECTORY "projects/p7/Headers/" DESTINATION ${INSTALL_DIR}/include/p7
 )
 
 # SDL2
+# APPLY SDL PATCH
+add_custom_target(patch_sdl
+  COMMAND git apply ${CMAKE_SOURCE_DIR}/patches/ds5_spk.patch
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/projects/SDL
+  COMMENT "Applying patch to SDL"
+)
+
 ExternalProject_Add(sdl_project
   SOURCE_DIR ${CMAKE_SOURCE_DIR}/projects/SDL
   BINARY_DIR ${BUILDS_DIR}/sdl
@@ -63,6 +70,7 @@ ExternalProject_Add(sdl_project
   -DCMAKE_C_FLAGS_RELEASE=${CMAKE_C_FLAGS_RELEASE}
   -DCMAKE_CXX_FLAGS_RELEASE=${CMAKE_CXX_FLAGS_RELEASE}
   -DCMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}
+  DEPENDS patch_sdl
 )
 
 ExternalProject_Add(libpng_project
