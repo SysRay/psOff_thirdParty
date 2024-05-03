@@ -208,4 +208,4 @@ ExternalProject_Add(wepoll_project
   -DCMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}
 )
 
-install(FILES "projects/xml3all/xml3all.h" DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+install(FILES "projects/xml3all/xml3all.h" DESTINATION ${INSTALL_DIR}/include)
