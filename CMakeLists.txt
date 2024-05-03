@@ -34,7 +34,6 @@ ExternalProject_Add(zlib_project
 install(FILES "projects/fff/fff.h" DESTINATION ${INSTALL_DIR}/include/fff/)
 
 # P7
-
 ExternalProject_Add(p7_project
   SOURCE_DIR ${CMAKE_SOURCE_DIR}/projects/p7
   BINARY_DIR ${BUILDS_DIR}/p7
@@ -48,7 +47,6 @@ ExternalProject_Add(p7_project
 
   -DP7TRACE_NO_VA_ARG_OPTIMIZATION=1
 )
-
 
 install(DIRECTORY "projects/p7/Headers/" DESTINATION ${INSTALL_DIR}/include/p7
   FILES_MATCHING PATTERN "*.h"
@@ -189,3 +187,17 @@ ExternalProject_Add(boost_project
   -DBOOST_INSTALL_LAYOUT=system
   CMAKE_CACHE_ARGS -DBOOST_INCLUDE_LIBRARIES:STRING=${BOOST_INCLUDE_LIBRARIES}
 )
+
+ExternalProject_Add(wepoll_project
+  SOURCE_DIR ${CMAKE_SOURCE_DIR}/projects/wepoll
+  BINARY_DIR ${BUILDS_DIR}/wepoll
+  CMAKE_ARGS
+  -DCMAKE_BUILD_TYPE:STRING=Release
+  -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}
+  -DCMAKE_INSTALL_MESSAGE=${CMAKE_INSTALL_MESSAGE}
+  -DCMAKE_C_FLAGS_RELEASE=${CMAKE_C_FLAGS_RELEASE}
+  -DCMAKE_CXX_FLAGS_RELEASE=${CMAKE_CXX_FLAGS_RELEASE}
+  -DCMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}
+)
+
+install(FILES "projects/xml3all/xml3all.h" DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
