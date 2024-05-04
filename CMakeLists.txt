@@ -19,6 +19,8 @@ set(CMAKE_INSTALL_MESSAGE LAZY)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set(CMAKE_WINDOWS_SYMBOL_VISIBILITY_IN_STATIC_LIBRARIES OFF)
 
+find_package(Vulkan REQUIRED)
+
 ExternalProject_Add(zlib_project
   SOURCE_DIR ${CMAKE_SOURCE_DIR}/projects/zlib
   BINARY_DIR ${BUILDS_DIR}/zlib
@@ -54,12 +56,6 @@ install(DIRECTORY "projects/p7/Headers/" DESTINATION ${INSTALL_DIR}/include/p7
 
 # SDL2
 # APPLY SDL PATCH
-add_custom_target(patch_sdl
-  COMMAND git apply ${CMAKE_SOURCE_DIR}/patches/ds5_spk.patch
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/projects/SDL
-  COMMENT "Applying patch to SDL"
-)
-
 ExternalProject_Add(sdl_project
   SOURCE_DIR ${CMAKE_SOURCE_DIR}/projects/SDL
   BINARY_DIR ${BUILDS_DIR}/sdl
@@ -70,7 +66,6 @@ ExternalProject_Add(sdl_project
   -DCMAKE_C_FLAGS_RELEASE=${CMAKE_C_FLAGS_RELEASE}
   -DCMAKE_CXX_FLAGS_RELEASE=${CMAKE_CXX_FLAGS_RELEASE}
   -DCMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}
-  DEPENDS patch_sdl
 )
 
 ExternalProject_Add(libpng_project
@@ -209,3 +204,40 @@ ExternalProject_Add(wepoll_project
 )
 
 install(FILES "projects/xml3all/xml3all.h" DESTINATION ${INSTALL_DIR}/include)
+
+add_library(imgui STATIC
+  ${CMAKE_SOURCE_DIR}/projects/imgui/imgui_draw.cpp
+  ${CMAKE_SOURCE_DIR}/projects/imgui/imgui_tables.cpp
+  ${CMAKE_SOURCE_DIR}/projects/imgui/imgui_widgets.cpp
+  ${CMAKE_SOURCE_DIR}/projects/imgui/imgui_demo.cpp
+  ${CMAKE_SOURCE_DIR}/projects/imgui/imgui.cpp
+
+  ${CMAKE_SOURCE_DIR}/projects/imgui/backends/imgui_impl_sdl2.cpp
+  ${CMAKE_SOURCE_DIR}/projects/imgui/backends/imgui_impl_vulkan.cpp
+)
+
+set_target_properties(imgui
+  PROPERTIES
+  LIBRARY_OUTPUT_DIRECTORY "${INSTALL_DIR}/bin"
+  ARCHIVE_OUTPUT_DIRECTORY "${INSTALL_DIR}/lib"
+  PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/"
+)
+
+install(FILES
+  ${CMAKE_SOURCE_DIR}/projects/imgui/imgui.h
+  ${CMAKE_SOURCE_DIR}/projects/imgui/imconfig.h
+  ${CMAKE_SOURCE_DIR}/projects/imgui/imstb_rectpack.h
+  ${CMAKE_SOURCE_DIR}/projects/imgui/imstb_textedit.h
+  ${CMAKE_SOURCE_DIR}/projects/imgui/imstb_truetype.h
+
+  DESTINATION ${INSTALL_DIR}/include/imgui
+)
+
+target_include_directories(imgui PRIVATE
+  ${CMAKE_SOURCE_DIR}/projects/imgui/
+  ${CMAKE_BINARY_DIR}/builds/sdl/include/SDL2
+  ${CMAKE_BINARY_DIR}/builds/sdl/include-config-release/SDL2
+  ${Vulkan_INCLUDE_DIR}
+)
+
+add_dependencies(imgui sdl_project)
