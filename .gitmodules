@@ -36,3 +36,6 @@
 [submodule "projects/boost"]
 	path = projects/boost
 	url = https://github.com/boostorg/boost.git
+[submodule "projects/imgui"]
+	path = projects/imgui
+	url = https://github.com/ocornut/imgui.git
