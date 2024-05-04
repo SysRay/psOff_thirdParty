@@ -39,3 +39,6 @@
 [submodule "projects/imgui"]
 	path = projects/imgui
 	url = https://github.com/ocornut/imgui.git
+[submodule "projects/pugixml"]
+	path = projects/pugixml
+	url = https://github.com/zeux/pugixml.git
