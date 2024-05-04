@@ -230,6 +230,9 @@ install(FILES
   ${CMAKE_SOURCE_DIR}/projects/imgui/imstb_textedit.h
   ${CMAKE_SOURCE_DIR}/projects/imgui/imstb_truetype.h
 
+  ${CMAKE_SOURCE_DIR}/projects/imgui/backends/imgui_impl_sdl2.h
+  ${CMAKE_SOURCE_DIR}/projects/imgui/backends/imgui_impl_vulkan.h
+
   DESTINATION ${INSTALL_DIR}/include/imgui
 )
 
