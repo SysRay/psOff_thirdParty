@@ -13,9 +13,6 @@ jobs:
           uses: actions/checkout@v4
           with:
             submodules: recursive
-        - name: Apply SDL Patch
-          working-directory: projects/SDL
-          run: git apply ../../patches/ds5_spk.patch
         - name: Apply Boost Semaphore Patch
           working-directory: projects/boost/libs/interprocess
           run: git apply ../../../../patches/interprocess_semaphore.patch
